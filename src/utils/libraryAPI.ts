@@ -26,6 +26,26 @@ export default class libAPI {
             const endpoints = (await libAPI.getEndpoint()).href;
             this.logger.debug(`getBookShelfById ${endpoints}; payload ${id}`)
             return await fetch(`${endpoints}/api/BookShelf/${id}`, { headers: this.headers })
+                .then(async (res) => {
+                    if (res.headers.get("content-length") !== "0") {
+                        if (res.headers.get("content-type")?.includes("application/json")) {
+                            if (!res.ok) return reject(await res.json());
+                            return res.json();
+                        }
+                        if (!res.ok) return reject(res.json());
+                        return res.json();
+                    }
+                })
+                .then(resolve)
+                .catch(reject);
+        })
+    }
+
+    public async getBookShelfByName(name: string): Promise<any> { // GET
+        return new Promise(async (resolve, reject) => {
+            const endpoints = (await libAPI.getEndpoint()).href;
+            this.logger.debug(`getBookShelfByName ${endpoints}; payload ${name}`)
+            return await fetch(`${endpoints}/api/BookShelf/${name}`, { headers: this.headers })
                 .then((a) => resolve(a.json()))
                 .catch(reject);
         })

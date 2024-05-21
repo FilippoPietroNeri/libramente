@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Library Management",
+  title: "LibraMente",
 };
 
 export default function RootLayout({
