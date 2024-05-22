@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export default class Logger {
 	constructor(public readonly name: string) {
 		this.name = name;
