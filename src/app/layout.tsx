@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "LibraMente",
+  title: "LibriMente",
 };
 
 export default function RootLayout({

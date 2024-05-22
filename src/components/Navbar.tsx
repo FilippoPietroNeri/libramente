@@ -16,7 +16,7 @@ export default function Navbar() {
                         <li><a href="/books">Books <SearchIcon /></a></li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl" href="/">LibraMente <MindIcon /></a>
+                <a className="btn btn-ghost text-xl" href="/">LibriMente <MindIcon /></a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
