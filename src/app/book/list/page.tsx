@@ -23,9 +23,9 @@ export default function Books() {
                 <div className="grid grid-cols-1 gap-4">
                     {result.map((result: any, index: any) => (
                         <div key={index} className="card bg-base-100 shadow-md p-4">
-                            <h3 className="text-xl font-semibold">{result.title}</h3>
+                            <h3 className="text-xl font-semibold"><a className="link" href={`/book/${result.title}`}>{result.title}</a></h3>
                             <p className="text-gray-500">Prezzo: <b>€{result.price}</b></p>
-                            <p className="text-gray-500">Genere: <b><a className="link" href={`/search/${result.genreName}`}>{result.genreName}</a></b></p>
+                            <p className="text-gray-500">Genere: <b><a className="link" href={`/genre/search/${result.genreName}`}>{result.genreName}</a></b></p>
                         </div>
                     ))}
                 </div>

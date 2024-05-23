@@ -7,38 +7,24 @@ import libAPI from "@/utils/libraryAPI";
 import { use, useEffect, useState } from "react";
 
 export default function SearchR({ params }: any) {
-    const [query, setQuery] = useState('');
     const [error, setError] = useState("");
     const [result, setResult] = useState([]);
-    const [genreId, setGenreId] = useState(0);
     const test = new libAPI();
 
     useEffect(() => {
         const fetchData = async () => {
-            await test.getBookByName(params.id).catch(async (err) => {
+            await test.getBooksByName(decodeURI(params.name)).catch(async (err) => {
                 // @ts-ignore
-                setError(`Il libro scelto è incorretto oppure non esiste.`);
+                console.error(err);
+                setError(`Unknown error`);
             }).then((v) => {
                 // Ok!
                 console.log(v)
                 // @ts-ignore
                 setResult(v);
             })
-        };
-
-        const fetchData2 = async () => {
-            await test.getGenreIdByGenreName(params.id).catch(async (err) => {
-                // @ts-ignore
-                setError(`Unknown error`);
-            }).then((v) => {
-                // Ok!
-                console.log(v)
-                // @ts-ignore
-                setGenreId(v);
-            })
         }
         fetchData();
-        fetchData2();
     }, [])
 
     return (
@@ -51,7 +37,7 @@ export default function SearchR({ params }: any) {
                 : ""}
             <div className="container mx-auto p-4 pt-20 pb-20">
                 <div className="mb-8 text-center">
-                    <h2 className="mb-5 text-5xl font-bold text-primary">Lista di libri della categoria {params.id}</h2>
+                    <h2 className="mb-5 text-5xl font-bold text-primary">Libro {decodeURI(params.name)}</h2>
                 </div>
                 <div className="mb-8">
                     <br />
@@ -62,6 +48,11 @@ export default function SearchR({ params }: any) {
                                     <div key={index} className="card bg-base-100 shadow-md p-4">
                                         <h3 className="text-xl font-semibold">{result.title}</h3>
                                         <p className="text-gray-500">Prezzo: <b>€{result.price}</b></p>
+                                        <p className="text-gray-500">Genere: <b><a className="link" href={`/genre/search/${result.genreName}`}>{result.genreName}</a></b></p>
+                                        <div className="container pt-5">
+                                            <button className="btn btn-secondary mr-2">Modifica Libro</button>
+                                            <button className="btn btn-error">Rimuovi Libro</button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -69,11 +60,10 @@ export default function SearchR({ params }: any) {
                         <>
                             <div role="alert" className="alert alert-warning">
                                 <WarningIcon />
-                                <span>Hey! Non abbiamo trovato libri con la categoria <b>{params.id}!</b></span>
+                                <span>Hey! Non abbiamo trovato il libro <b>{decodeURI(params.name)}!</b></span>
                             </div>
                         </>}
                 </div>
-                <a className="btn btn-primary" href={`/books/add?genreName=${params.id}&genreId=${genreId}`}> + Aggiungi un nuovo libro</a>
             </div>
         </>
     )

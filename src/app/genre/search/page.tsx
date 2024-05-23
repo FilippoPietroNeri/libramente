@@ -31,7 +31,7 @@ export default function Search() {
                 <div className="mb-8">
                     <div className="grid grid-cols-1 gap-4">
                         {result.map((result: any, index: any) => (
-                            <a key={index} href={`/search/${result.description}`} className="card bg-base-100 shadow-md p-4 hover:bg-base-200">
+                            <a key={index} href={`/genre/search/${result.description}`} className="card bg-base-100 shadow-md p-4 hover:bg-base-200">
                                 <h3 className="text-xl font-semibold">{result.description}</h3>
                                 <p className="text-gray-500">Libri Disponibili: <b className={`${result.books > 0 ? 'text-green-600' : 'text-red-600'}`}>{result.books || 0}</b></p>
                             </a>

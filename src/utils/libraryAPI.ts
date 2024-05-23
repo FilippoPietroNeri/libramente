@@ -46,12 +46,13 @@ export default class libAPI {
                 .then(async (res) => {
                     if (res.headers.get("content-length") !== "0") {
                         if (!res.ok) return reject(res.json());
-                        for (let item of await res.json()) {
+                        const json = await res.json();
+                        for (let item of json) {
                             if (item.description.toLocaleLowerCase() === genreName.toLocaleLowerCase()) {
                                 return item.genreId;
                             }
                         }
-                        return res.json();
+                        return json;
                     }
                 })
                 .then(resolve)
@@ -105,12 +106,8 @@ export default class libAPI {
                 .then(async (res) => {
                     if (res.headers.get("content-length") !== "0") {
                         if (!res.ok) return reject(res.json());
-                        for (let item of await res.json()) {
-                            if (item.genreName.toLocaleLowerCase() === genreName.toLocaleLowerCase()) {
-                                return item;
-                            }
-                        }
-                        return res.json();
+                        const books = (await res.json()).filter((book: { genreName: string; }) => book.genreName === genreName );
+                        return books;
                     }
                 })
                 .then(resolve)
@@ -118,7 +115,7 @@ export default class libAPI {
         })
     }
 
-    public async getBookByName(bookName: string): Promise<any> { // GET
+    public async getBooksByName(bookName: string): Promise<any> { // GET
         return new Promise(async (resolve, reject) => {
             const endpoints = (await libAPI.getEndpoint()).href;
             this.logger.debug(`getBooks ${endpoints}; payload ${undefined}`)
@@ -126,7 +123,7 @@ export default class libAPI {
                 .then(async (res) => {
                     if (res.headers.get("content-length") !== "0") {
                         if (!res.ok) return reject(res.json());
-                        const books = (await res.json()).filter((book: { genreName: string; }) => book.genreName === bookName );
+                        const books = (await res.json()).filter((book: { title: string; }) => book.title === bookName );
                         this.logger.debug(books);
                         return books;
                     }
