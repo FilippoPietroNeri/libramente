@@ -8,7 +8,7 @@ function Error() {
                 <h1 className="text-4xl font-bold mb-4">Ops, qualcosa è andato storto!</h1>
                 <p className="text-lg mb-2">La pagina ha riscontrato un errore.</p>
                 <br />
-                <p className="text-sm mb-4">Purtroppo questa pagina non potrà essere visitata in quanto c'è una manutenzione in corso.</p>
+                <p className="text-sm mb-4">Purtroppo questa pagina non potrà essere visitata in quanto c&apos;è una manutenzione in corso.</p>
                 <Link href="/">
                     <button className="btn btn-primary">Go back home</button>
                 </Link>
