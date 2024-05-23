@@ -232,7 +232,7 @@ export default class libAPI {
     }
 
     static async getEndpoint() {
-        const knowns = await fetch('https://filippopietroneri.github.io/api/endpoints')
+        const knowns = await fetch('https://filipponeri.it/api/endpoints')
             .then((a) => a.json())
             .then((a) => new URL(a.api))
         return knowns
