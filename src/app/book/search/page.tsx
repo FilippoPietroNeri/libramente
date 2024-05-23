@@ -17,7 +17,7 @@ export default function BookSearch() {
       console.log(a);
       setResult(a);
       if (!a.length) {
-        setError('Impossibile trovare il libro')
+        setError('Non ho trovato libri con quel nome!')
       }
     }).catch((er) => {
       setError('Impossibile trovare il libro')
@@ -58,7 +58,7 @@ export default function BookSearch() {
               : ""}
             {result.map((result: any, index) => (
               <div key={index} className="card bg-base-100 shadow-md p-4">
-                <h3 className="text-xl font-semibold">{result.title}</h3>
+                <h3 className="text-xl font-semibold"><a className="link" href={`/book/${result.title}`}>{result.title}</a></h3>
                 <p className="text-gray-500">Prezzo: <b>€{result.price}</b></p>
                 <p className="text-gray-500">Genere: <b><a className="link" href={`/genre/search/${result.genreName}`}>{result.genreName}</a></b></p>
               </div>

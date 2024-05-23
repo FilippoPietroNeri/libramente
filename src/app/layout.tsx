@@ -16,7 +16,6 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="synthwave">
       <head>
-        <link rel="icon" href="favicon.ico" sizes="any" />
         <meta name="title" content="LibriMente | La tua libreria online!" />
         <meta name="description" content="Sei stanco di tutti i quei libri in giro per casa? Abbiamo la soluzione per te! Con il nostro servizio potrai accedere a più di 10.000+ libri di tutti i generi che vuoi." />
 

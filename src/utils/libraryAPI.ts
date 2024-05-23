@@ -82,6 +82,50 @@ export default class libAPI {
         })
     }
 
+    public async deleteBook(bookId: number): Promise<any> { // POST
+        return new Promise(async (resolve, reject) => {
+            const endpoints = (await libAPI.getEndpoint()).href;
+            this.logger.debug(`Book ${endpoints}; payload ${undefined}`)
+            return await fetch(`${endpoints}/api/Book/${bookId}`, { method: 'DELETE', headers: {
+                "Content-Type": "application/json", // cuz is a POST
+                ...this.headers
+            }})
+                .then(async (res) => {
+                    if (res.headers.get("content-length") !== "0") {
+                        if (!res.ok) return reject(res.json());
+                        return {
+                            "message": "Ok",
+                            "status": 200
+                        };
+                    }
+                })
+                .then(resolve)
+                .catch(reject);
+        })
+    }
+
+    public async updateBook(data: BookData): Promise<any> { // POST
+        return new Promise(async (resolve, reject) => {
+            const endpoints = (await libAPI.getEndpoint()).href;
+            this.logger.debug(`Book ${endpoints}; payload ${undefined}`)
+            return await fetch(`${endpoints}/api/Book`, { method: 'PUT', headers: {
+                "Content-Type": "application/json", // cuz is a POST
+                ...this.headers
+            }, body: JSON.stringify(data) })
+                .then(async (res) => {
+                    if (res.headers.get("content-length") !== "0") {
+                        if (!res.ok) return reject(res.json());
+                        return {
+                            "message": "Ok",
+                            "status": 200
+                        };
+                    }
+                })
+                .then(resolve)
+                .catch(reject);
+        })
+    }
+
     public async getBooks(): Promise<any> { // GET
         return new Promise(async (resolve, reject) => {
             const endpoints = (await libAPI.getEndpoint()).href;
@@ -123,7 +167,7 @@ export default class libAPI {
                 .then(async (res) => {
                     if (res.headers.get("content-length") !== "0") {
                         if (!res.ok) return reject(res.json());
-                        const books = (await res.json()).filter((book: { title: string; }) => book.title === bookName );
+                        const books = (await res.json()).filter((book: { title: string; }) => book.title.toLocaleLowerCase() === bookName.toLowerCase() );
                         this.logger.debug(books);
                         return books;
                     }

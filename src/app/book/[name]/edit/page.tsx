@@ -1,4 +1,5 @@
 'use client';
+import Error from "@/components/Error";
 import ErrorIcon from "@/components/icons/Error";
 import SearchIcon from "@/components/icons/Search";
 import SuccessIcon from "@/components/icons/Success";
@@ -7,17 +8,19 @@ import Logger from "@/utils/Logger";
 import libAPI from "@/utils/libraryAPI";
 import { Suspense, use, useEffect, useState } from "react";
 
+
 function getGenreNameFromId(genres:any, genreId:number) 
 {
-    return (genres.filter((book: any) => book.genreId == genreId)[0]) || null;
+    return (genres.filter((book: any) => book.genreId == Number(genreId))[0]) || null;
 }
 
 export default function SearchR({ params }: any) {
+    const test = new libAPI();
+    const [maintenance, setMaintenance] = useState(true);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [result, setResult] = useState([]);
+    const [result, setResult] : any = useState({});
     const [genres, setGenres] = useState([]);
-    const test = new libAPI();
     const [book, setBook] = useState({
         id: 0,
         title: '',
@@ -31,12 +34,25 @@ export default function SearchR({ params }: any) {
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        setBook({
+        let updatedFormData = {
             ...book,
             [name]: value
-        });
-        console.log(book.genreId)
-        console.log(getGenreNameFromId(genres, book.genreId));
+        };
+
+        updatedFormData.genreId = Number(updatedFormData.genreId)
+
+        if (name == "genreId") {
+            const genre = getGenreNameFromId(genres, Number(updatedFormData.genreId));
+            console.log('handleChange genre', genre);
+            if (genre)
+            {
+                updatedFormData.genreName = genre.description
+            } else {
+                updatedFormData.genreName = ""
+            }
+        }
+
+        setBook(updatedFormData);
     };
 
     const handleSubmit = async (e: any) => {
@@ -45,10 +61,18 @@ export default function SearchR({ params }: any) {
         e.preventDefault();
         console.log('Book added:', book);
         // @ts-ignore
+        await test.updateBook(book).then((a) => {
+            console.log(a)
+            setSuccess('Hai modificato con successo il libro!')
+        }).catch((err) => {
+            console.error(err);
+            setError('Impossibile modificare questo libro!')
+        });
     };
 
     useEffect(() => {
         const fetchData = async () => {
+            setMaintenance(true);
             await test.getBooksByName(decodeURI(params.name)).catch(async (err) => {
                 // @ts-ignore
                 console.error(err);
@@ -57,18 +81,9 @@ export default function SearchR({ params }: any) {
                 // Ok!
                 console.log(v)
                 // @ts-ignore
-                setResult(v);
+                setResult(v[0]);
                 // @ts-ignore
-                setBook({
-                    id: v[0].id,
-                    title: v[0].title,
-                    price: v[0].price,
-                    isOut: v[0].isOut,
-                    isbn: v[0].isbn,
-                    genreId: v[0].genreId,
-                    shelfId: v[0].shelfId,
-                    genreName: v[0].genreName
-                })
+                setBook(v[0]);
             })
         }
         const fetchData1 = async () => {
@@ -85,78 +100,84 @@ export default function SearchR({ params }: any) {
 
     return (
         <>
-            <div className="container mx-auto p-4 pt-20 pb-20">
-                <div className="mb-8 text-center">
-                    <h2 className="mb-5 text-5xl font-bold text-primary">Aggiungi un nuovo libro!</h2>
+            {!maintenance ? 
+                <div className="container mx-auto p-4 pt-20 pb-20" >
+                    <div className="mb-8 text-center">
+                        <h2 className="mb-5 text-5xl font-bold text-primary">Modifica Libro</h2>
+                        <span className="text-gray-500">Pensi di aver trovato uno sbaglio nel libro? Modificalo ora.</span>
+                    </div>
+                    {error ?
+                        <div role="alert" className="alert alert-error">
+                            <ErrorIcon />
+                            <span>{error}</span>
+                        </div>
+                        : ""}
+                    {success ?
+                        <div role="alert" className="alert alert-success">
+                            <SuccessIcon />
+                            <span>{success}</span>
+                        </div>
+                        : ""}
+                    <Suspense>
+                        {book ?
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-control mb-4">
+                                    <label className="label" htmlFor="title">Titolo del Libro</label>
+                                    <input
+                                        className="input input-bordered"
+                                        type="text"
+                                        id="title"
+                                        name="title"
+                                        value={book.title}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="form-control mb-4">
+                                    <label className="label" htmlFor="price">Prezzo del Libro</label>
+                                    <input
+                                        className="input input-bordered"
+                                        type="text"
+                                        id="price"
+                                        name="price"
+                                        value={Number(book.price)}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="form-control mb-4">
+                                    <label className="label" htmlFor="isbn">ISBN</label>
+                                    <input
+                                        className="input input-bordered"
+                                        type="text"
+                                        id="isbn"
+                                        name="isbn"
+                                        value={book.isbn || 0}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="form-control mb-4">
+                                    <label className="label" htmlFor="genreId">Genre Id</label>
+                                    <select
+                                        className="select select-bordered"
+                                        id="genreId"
+                                        name="genreId"
+                                        value={Number(book.genreId)}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">Seleziona un genere</option>
+                                        {genres.map((genre: any) => (
+                                            <option key={genre.genreId} value={genre.genreId}>[{genre.genreId}] {genre.description}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <button type="submit" className="btn btn-primary">Modifica Libro</button>
+                            </form>
+                        : ""}
+                    </Suspense>
                 </div>
-                {error ?
-                    <div role="alert" className="alert alert-error">
-                        <ErrorIcon />
-                        <span>{error}</span>
-                    </div>
-                    : ""}
-                {success ?
-                    <div role="alert" className="alert alert-success">
-                        <SuccessIcon />
-                        <span>{success}</span>
-                    </div>
-                    : ""}
-                <Suspense>
-                    {result ?
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-control mb-4">
-                                <label className="label" htmlFor="title">Titolo del Libro</label>
-                                <input
-                                    className="input input-bordered"
-                                    type="text"
-                                    id="title"
-                                    name="title"
-                                    value={book.title}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="form-control mb-4">
-                                <label className="label" htmlFor="price">Prezzo del Libro</label>
-                                <input
-                                    className="input input-bordered"
-                                    type="text"
-                                    id="price"
-                                    name="price"
-                                    value={book.price}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="form-control mb-4">
-                                <label className="label" htmlFor="isbn">ISBN</label>
-                                <input
-                                    className="input input-bordered"
-                                    type="text"
-                                    id="isbn"
-                                    name="isbn"
-                                    value={book.isbn || 0}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="form-control mb-4">
-                                <label className="label" htmlFor="genreId">Genre Id</label>
-                                <select
-                                    className="select select-bordered"
-                                    id="genreId"
-                                    name="genreId"
-                                    value={book.genreId}
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Seleziona un genere</option>
-                                    {genres.map((genre: any) => (
-                                        <option key={genre.genreId} value={genre.genreId}>{genre.description}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <button type="submit" className="btn btn-primary">Modifica Libro</button>
-                        </form>
-                    : ""}
-                </Suspense>
-            </div>
+            : 
+            <>
+                <Error />
+            </>}
         </>
     )
 }
