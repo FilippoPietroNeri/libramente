@@ -16,7 +16,7 @@ export default function SearchR({ params }: any) {
 
     useEffect(() => {
         const fetchData = async () => {
-            await test.getBooksByName(decodeURI(params.name)).catch(async (err) => {
+            await test.getBooksById(params.name).catch(async (err) => {
                 // @ts-ignore
                 console.error(err);
                 setError(`Unknown error`);
@@ -47,7 +47,7 @@ export default function SearchR({ params }: any) {
         <>
             <div className="container mx-auto p-4 pt-20 pb-20">
                 <div className="mb-8 text-center">
-                    <h2 className="mb-5 text-5xl font-bold text-primary">Libro {decodeURI(params.name)}</h2>
+                    <h2 className="mb-5 text-5xl font-bold text-primary">Libro</h2>
                 </div>
                 <div className="mb-8">
                     {error ?

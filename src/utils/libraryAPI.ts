@@ -177,6 +177,24 @@ export default class libAPI {
         })
     }
 
+    public async getBooksById(Id: number): Promise<any> { // GET
+        return new Promise(async (resolve, reject) => {
+            const endpoints = (await libAPI.getEndpoint()).href;
+            this.logger.debug(`getBooks ${endpoints}; payload ${undefined}`)
+            return await fetch(`${endpoints}/api/Book/`, { headers: this.headers })
+                .then(async (res) => {
+                    if (res.headers.get("content-length") !== "0") {
+                        if (!res.ok) return reject(res.json());
+                        const books = (await res.json()).filter((book: any) => book.id == Id);
+                        this.logger.debug(books);
+                        return books;
+                    }
+                })
+                .then(resolve)
+                .catch(reject);
+        })
+    }
+
 
     public async getGenres(): Promise<any> { // GET
         return new Promise(async (resolve, reject) => {
