@@ -167,7 +167,7 @@ export default class libAPI {
                 .then(async (res) => {
                     if (res.headers.get("content-length") !== "0") {
                         if (!res.ok) return reject(res.json());
-                        const books = (await res.json()).filter((book: { title: string; }) => book.title.toLocaleLowerCase() === bookName.toLowerCase() );
+                        const books = (await res.json()).filter((book: { title: string; }) => book.title.toLocaleLowerCase().includes(bookName.toLowerCase()) );
                         this.logger.debug(books);
                         return books;
                     }
