@@ -1,8 +1,12 @@
+'use client';
 import MindIcon from "./icons/Mind";
 import HomeIcon from "./icons/Home";
 import SearchIcon from "./icons/Search";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Navbar() {
+    const { data: session } = useSession();
     return (
         <div className="navbar bg-neutral text-neutral-content">
             <div className="navbar-start">
@@ -12,9 +16,13 @@ export default function Navbar() {
                     </div>
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li><a href="/">Home <HomeIcon /></a></li>
-                        <li><a href="/genre/search">Search Genre <SearchIcon /></a></li>
-                        <li><a href="/book/search">Search Book <SearchIcon /></a></li>
-                        <li><a href="/book/list">Book List <SearchIcon /></a></li>
+                        {session ?
+                            <>
+                                <li><a href="/genre/search">Search Genre <SearchIcon /></a></li>
+                                <li><a href="/book/search">Search Book <SearchIcon /></a></li>
+                                <li><a href="/book/list">Book List <SearchIcon /></a></li>
+                            </>
+                            : ""}
                     </ul>
                 </div>
                 <a className="btn btn-ghost text-xl" href="/">LibriMente <MindIcon /></a>
@@ -22,12 +30,29 @@ export default function Navbar() {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li><a href="/">Home <HomeIcon /></a></li>
-                    <li><a href="/genre/search">Search Genre <SearchIcon /></a></li>
-                    <li><a href="/book/search">Search Book <SearchIcon /></a></li>
-                    <li><a href="/book/list">Book List <SearchIcon /></a></li>
+                    {session ?
+                        <>
+                            <li><a href="/genre/search">Search Genre <SearchIcon /></a></li>
+                            <li><a href="/book/search">Search Book <SearchIcon /></a></li>
+                            <li><a href="/book/list">Book List <SearchIcon /></a></li>
+                        </>
+                        : ""}
                 </ul>
             </div>
-            <div className="navbar-end"></div>
+            <div className="navbar-end">
+                {session ?
+                    <>
+                        <Link href="#" className="btn btn-primary" onClick={() => signOut()}>
+                            Sign out
+                        </Link>
+                    </>
+                    :
+                    <>
+                        <Link href="#" className="btn btn-primary" onClick={() => signIn()}>
+                            Sign in
+                        </Link>
+                    </>}
+            </div>
         </div>
     )
 };

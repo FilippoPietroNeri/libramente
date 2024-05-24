@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Suspense } from "react";
+import { getServerSession } from "next-auth";
+import SessionProvider from "@/components/SessionProvider";
 
 export const metadata: Metadata = {
   title: "LibriMente | La tua libreria online",
@@ -13,6 +15,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = getServerSession();
   return (
     <html lang="en" data-theme="synthwave">
       <head>
@@ -32,13 +35,15 @@ export default function RootLayout({
         <meta property="twitter:image" content="https://t4.ftcdn.net/jpg/05/81/69/91/360_F_581699110_zG6mpCdtyK0lAvXg89DTrbAFbEdhCrVb.jpg" />
       </head>
       <body className="min-h-screen flex flex-col justify-between">
-        <Navbar />
-        <section className="flex-grow">
-          <Suspense fallback={<div>Loading...</div>}>
-            {children}
-          </Suspense>
-        </section>
-        <Footer />
+        <SessionProvider session={session as any}>
+          <Navbar />
+          <section className="flex-grow">
+            <Suspense fallback={<span className="loading loading-dots loading-lg"></span>}>
+              {children}
+            </Suspense>
+          </section>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );
