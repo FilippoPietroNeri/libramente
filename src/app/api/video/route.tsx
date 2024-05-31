@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 const videoData = [ 
   {
-    "id": "6qpudAhYhpc",
-    "url": "https://www.youtube.com/watch?v=6qpudAhYhpc",
+    "id": "algorithm",
+    "url": "6qpudAhYhpc",
     "title": "ALGORITHM: The Hacker Movie"
   }
 ]
