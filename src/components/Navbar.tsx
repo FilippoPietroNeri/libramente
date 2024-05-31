@@ -7,6 +7,7 @@ import Link from "next/link";
 
 export default function Navbar() {
     const { data: session } = useSession();
+    console.log(session);
     return (
         <div className="navbar bg-neutral text-neutral-content">
             <div className="navbar-start">

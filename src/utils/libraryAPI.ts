@@ -86,7 +86,7 @@ export default class libAPI {
         return new Promise(async (resolve, reject) => {
             const endpoints = (await libAPI.getEndpoint()).href;
             this.logger.debug(`Book ${endpoints}; payload ${undefined}`)
-            return await fetch(`${endpoints}/api/Book/${bookId}`, { method: 'DELETE', headers: {
+            return await fetch(`${endpoints}/api/Book/${bookId}`, { method:'DELETE', headers: {
                 "Content-Type": "application/json", // cuz is a POST
                 ...this.headers
             }})
