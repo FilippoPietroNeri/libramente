@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-//@ts-ignore
-import YoutubeEmbed from "@/components/YoutubeEmbed";
+import YoutubeEmbed from "@/components/YouTubeEmbed";
 
 export default function Home() {
     return (
