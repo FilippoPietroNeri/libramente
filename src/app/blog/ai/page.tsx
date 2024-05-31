@@ -5,7 +5,7 @@ import YoutubeEmbed from "@/components/YouTubeEmbed";
 export default function Home() {
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold mb-4">Educazione Civica sull'Intelligenza Artificiale</h1>
+            <h1 className="text-4xl font-bold mb-4">Educazione Civica sull&apos;Intelligenza Artificiale</h1>
             <Image
                 src="/mind.png"
                 alt="Overview of AI"
@@ -15,7 +15,7 @@ export default function Home() {
                 priority
             />
             <p className="mb-4">
-                Con tutto il clamore suscitato dall&apos;Intelligenza Artificiale - robot, auto a guida autonoma, ecc. - è facile pensare che l&apos;intelligenza artificiale non abbia un impatto sulla nostra vita quotidiana. In realtà, la maggior parte di noi incontra l&apos;intelligenza artificiale in un modo o nell&apos;altro quasi ogni giorno. Dal momento in cui ci si sveglia e si controlla lo smartphone alla visione di un altro film consigliato da Netflix, l&apos;intelligenza artificiale si è fatta rapidamente strada nella nostra vita quotidiana. Secondo uno studio di Statista, il mercato globale dell&apos;IA è destinato a crescere fino al 54% ogni anno. Ma cos&apos;è esattamente l&apos;IA? Sarà davvero utile all'umanità in futuro? Ci sono molti vantaggi e svantaggi dell&apos;Intelligenza Artificiale che discuteremo in questo articolo. Ma prima di addentrarci nei pro e contro dell&apos;IA, diamo una rapida occhiata a cosa sia l&apos;IA.
+                Con tutto il clamore suscitato dall&apos;Intelligenza Artificiale - robot, auto a guida autonoma, ecc. - è facile pensare che l&apos;intelligenza artificiale non abbia un impatto sulla nostra vita quotidiana. In realtà, la maggior parte di noi incontra l&apos;intelligenza artificiale in un modo o nell&apos;altro quasi ogni giorno. Dal momento in cui ci si sveglia e si controlla lo smartphone alla visione di un altro film consigliato da Netflix, l&apos;intelligenza artificiale si è fatta rapidamente strada nella nostra vita quotidiana. Secondo uno studio di Statista, il mercato globale dell&apos;IA è destinato a crescere fino al 54% ogni anno. Ma cos&apos;è esattamente l&apos;IA? Sarà davvero utile all&apos;umanità in futuro? Ci sono molti vantaggi e svantaggi dell&apos;Intelligenza Artificiale che discuteremo in questo articolo. Ma prima di addentrarci nei pro e contro dell&apos;IA, diamo una rapida occhiata a cosa sia l&apos;IA.
             </p>
             <h1 className='mb-4 text-xl text-gray-400 font-bold'>
                 Che cos&apos;è l'intelligenza artificiale?

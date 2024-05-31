@@ -4,7 +4,7 @@ import Image from 'next/image';
 export default function Pros() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-4">Pro dell'Intelligenza Artificiale</h1>
+      <h1 className="text-4xl font-bold mb-4">Pro dell&apos;Intelligenza Artificiale</h1>
       <Image
         src="/1678456683532.png"
         alt="Advantages of AI"
@@ -12,7 +12,7 @@ export default function Pros() {
         height={400}
         className="mb-4"
       />
-      <p className="mb-4">Ecco alcuni vantaggi dell'intelligenza artificiale:</p>
+      <p className="mb-4">Ecco alcuni vantaggi dell&apos;intelligenza artificiale:</p>
       <div className="collapse collapse-arrow bg-base-200">
         <input type="checkbox" name="my-accordion-1" />
         <div className="collapse-title text-xl font-medium">
@@ -37,7 +37,7 @@ export default function Pros() {
           Efficienza nei processi aziendali
         </div>
         <div className="collapse-content">
-          <p>L&apos;IA può ottimizzare le operazioni aziendali, riducendo i costi e migliorando l'efficienza.</p>
+          <p>L&apos;IA può ottimizzare le operazioni aziendali, riducendo i costi e migliorando l&apos;efficienza.</p>
         </div>
       </div>
       <div className="collapse collapse-arrow bg-base-200">
