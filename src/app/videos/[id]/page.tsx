@@ -8,23 +8,24 @@ import { useEffect, useState } from "react"
 export default function WatchVideo({ params }: any) {
     const { data: session } = useSession();
     const [error, setError] = useState('');
-    const [data, setData] : any = useState({});
+    const [data, setData]: any = useState({});
     if (!session) {
         return redirect('/');
+    } else {
+        useEffect(() => {
+            fetch('/api/video', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ videoId: params.id }),
+            }).then((data) => data.json())
+                .then((resp) => {
+                    console.log(resp);
+                    setData(resp.data);
+                })
+        }, []);
     }
-    useEffect(() => {
-        fetch('/api/video', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({videoId: params.id}),
-        }).then((data) => data.json())
-        .then((resp) => {
-            console.log(resp);
-            setData(resp.data);
-        })
-    }, []);
     return (
         <>
             {error ?
@@ -32,7 +33,7 @@ export default function WatchVideo({ params }: any) {
                     <ErrorIcon />
                     <span>{error}</span>
                 </div>
-            : ""}
+                : ""}
             <div className="container mx-auto p-4 pt-20 pb-20">
                 <div className="mb-8 text-center">
                     <h2 className="mb-5 text-5xl font-bold text-primary"><b className="text-white">{data.title}</b></h2>
