@@ -12,19 +12,17 @@ export default function WatchVideo({ params }: any) {
     if (!session) {
         return redirect('/');
     } else {
-        useEffect(() => {
-            fetch('/api/video', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ videoId: params.id }),
-            }).then((data) => data.json())
-                .then((resp) => {
-                    console.log(resp);
-                    setData(resp.data);
-                })
-        }, []);
+        fetch('/api/video', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ videoId: params.id }),
+        }).then((data) => data.json())
+            .then((resp) => {
+                console.log(resp);
+                setData(resp.data);
+        })
     }
     return (
         <>
